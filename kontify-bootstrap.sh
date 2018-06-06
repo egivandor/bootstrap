@@ -66,3 +66,4 @@ systemctl start docker
 
 sed -i 's/#\?Port.*/Port 50022/' /etc/ssh/sshd_config
 sed -i 's/#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+systemctl restart sshd
