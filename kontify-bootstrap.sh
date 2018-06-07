@@ -33,15 +33,6 @@ hostname -F /etc/hostname
 # This section sets the Fully Qualified Domain Name (FQDN) in the hosts file.
 echo $IPADDR $FQDN $HOSTNAME >> /etc/hosts
 
-useradd -m -G docker $USER
-su - $USER -c "mkdir .ssh"
-su - $USER -c "chmod 700 .ssh"
-sudo usermod -aG docker $USER
-
-su - $USER -c "echo '${SSH_KEY1}' >> .ssh/authorized_keys"
-su - $USER -c "echo '${SSH_KEY2}' >> .ssh/authorized_keys"
-
-su - $USER -c "chmod 600 .ssh/authorized_keys"
 
 mkdir /root/.ssh
 chmod 700 /root/.ssh
@@ -63,6 +54,18 @@ yum -y install docker-ce
 
 systemctl enable docker
 systemctl start docker
+
+docker swarm init
+
+useradd -m -G docker $USER
+su - $USER -c "mkdir .ssh"
+su - $USER -c "chmod 700 .ssh"
+sudo usermod -aG docker $USER
+
+su - $USER -c "echo '${SSH_KEY1}' >> .ssh/authorized_keys"
+su - $USER -c "echo '${SSH_KEY2}' >> .ssh/authorized_keys"
+
+su - $USER -c "chmod 600 .ssh/authorized_keys"
 
 sed -i 's/#\?Port.*/Port 50022/' /etc/ssh/sshd_config
 sed -i 's/#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
