@@ -44,7 +44,20 @@ yum -y install tmux \
   yum-utils \
   device-mapper-persistent-data \
   mc \
-  nano
+  nano \
+  wget \
+  ntpd
+
+# Enable ntpdate
+systemctl enable ntpd
+systemctl start ntpd
+
+# Add epel repo
+wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh epel-release-latest-7.noarch.rpm
+
+# Add packages from epel
+yum -y install atop
 
 yum-config-manager \
   --add-repo \
